@@ -40,8 +40,15 @@ class _CommentaryListState extends State<CommentaryList> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    final avatarBorderRadius = mediaQuery.size.width*0.08;
-    final avatarDiameter = avatarBorderRadius*1.7;
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
+    var avatarBorderRadius;
+    if (isLandscape) {
+      avatarBorderRadius = mediaQuery.size.width * 0.04;
+    }
+    else {
+      avatarBorderRadius = mediaQuery.size.width * 0.08;
+    }
+    var avatarDiameter = avatarBorderRadius*1.7;
 
     return Container(
       //height: 300,
