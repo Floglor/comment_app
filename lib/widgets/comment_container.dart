@@ -5,8 +5,8 @@ import 'package:intl/intl.dart';
 
 class CommentaryContainer extends StatelessWidget {
 
-  List<Commentary> _commentaryList;
-  int index;
+  final List<Commentary> _commentaryList;
+  final int index;
 
 
   CommentaryContainer(this._commentaryList, this.index);
