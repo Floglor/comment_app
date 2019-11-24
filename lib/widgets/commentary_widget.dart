@@ -1,44 +1,43 @@
+import 'package:comment_app/models/image_post.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import '../models/commentary.dart';
 import 'comment_container.dart';
 import 'newcomm.dart';
 
 
 
-const String defaultText =
+ const String defaultText =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
 class CommentaryList extends StatefulWidget {
+
+  final ImagePost imagePost;
+
+
+  CommentaryList(this.imagePost);
+
   @override
   _CommentaryListState createState() => _CommentaryListState();
 }
 
 class _CommentaryListState extends State<CommentaryList> {
-  final List<Commentary> _commentaries = [
-    Commentary(date: DateTime.now(), text: "HOT <3", profileName: "Pepega"),
-    Commentary(date: DateTime.now(), text: defaultText, profileName: "Pepega")
-  ];
+
+
 
   void _addNewCommentary(String text) {
     final newCom =
         Commentary(date: DateTime.now(), text: text, profileName: "Pepega");
 
     setState(() {
-      _commentaries.add(newCom);
+      widget.imagePost.commentaries.add(newCom);
     });
   }
-
-  Widget _buildLandscapeContent (
-    MediaQueryData mediaQuery,
-    AppBar appBar,
-    Widget txListWidget,
-  ) {}
 
 
 
   @override
   Widget build(BuildContext context) {
+    ImagePost _imagePost = widget.imagePost;
     final mediaQuery = MediaQuery.of(context);
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
     var avatarBorderRadius;
@@ -54,7 +53,7 @@ class _CommentaryListState extends State<CommentaryList> {
       //height: 300,
       child: Column(children: <Widget>[
         ListView.builder(
-          itemCount: _commentaries.length,
+          itemCount: _imagePost.commentaries.length,
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemBuilder: (ctx, index) => Container(
@@ -82,7 +81,7 @@ class _CommentaryListState extends State<CommentaryList> {
                   ),
                   Container(
                     width: mediaQuery.size.width-avatarBorderRadius-50,
-                    child: CommentaryContainer(_commentaries, index)
+                    child: CommentaryContainer(_imagePost.commentaries, index)
                   ,)
                 ],
               )),

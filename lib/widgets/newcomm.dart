@@ -22,7 +22,7 @@ class NewCommentary extends StatelessWidget {
         child: Container(
           //width: 200,
           child: TextField(
-              decoration: InputDecoration(labelText: "Add comment"),
+              decoration: InputDecoration(labelText: "Add a comment"),
               controller: commentaryController,
             onSubmitted: (_) => submitData(),
       ),

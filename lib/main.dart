@@ -2,6 +2,7 @@ import 'package:comment_app/models/commentary.dart';
 import 'package:comment_app/widgets/commentary_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'models/image_post.dart';
 import 'widgets/image.dart';
 import 'models/commentary.dart';
 
@@ -28,9 +29,17 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   var _image;
 
+   ImagePost imagePost = new ImagePost(new AssetImage("assets/test_graphics/8kb6UL-FvxM.jpg"), _commentaries);
+
+  static final List<Commentary> _commentaries = [
+    Commentary(date: DateTime.now(), text: "HOT <3", profileName: "Pepega"),
+    Commentary(date: DateTime.now(), text: defaultText, profileName: "Pepega")
+  ];
+
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
+      imagePost = new ImagePost(image, new List<Commentary>());
       _image = image;
     });
   }
@@ -52,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
         body: ListView(
           children: <Widget>[
             ImageWidget(_image),
-            CommentaryList()
+            CommentaryList(imagePost)
           ],
         ));
   }
