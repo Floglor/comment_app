@@ -1,5 +1,4 @@
 import 'package:comment_app/models/commentary.dart';
-import 'package:comment_app/widgets/commentary_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
