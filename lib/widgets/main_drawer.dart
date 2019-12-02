@@ -42,7 +42,7 @@ class MainDrawer extends StatelessWidget {
             height: 20,
           ),
           buildListTile('Saved Images', Icons.save, () {
-            Navigator.of(context).pushReplacementNamed(SavedImages.routeName);
+            Navigator.of(context).pushNamed(SavedImages.routeName);
           }),
         ],
       ),
