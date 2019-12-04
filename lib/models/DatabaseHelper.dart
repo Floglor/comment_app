@@ -1,8 +1,44 @@
 import 'dart:io';
-
-import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:path_provider/path_provider.dart';
 
+// database table and column names
+final String tableWords = 'words';
+final String columnId = '_id';
+final String columnWord = 'word';
+final String columnFrequency = 'frequency';
+
+// data model class
+class Word {
+
+  int id;
+  String word;
+  int frequency;
+
+  Word();
+
+  // convenience constructor to create a Word object
+  Word.fromMap(Map<String, dynamic> map) {
+    id = map[columnId];
+    word = map[columnWord];
+    frequency = map[columnFrequency];
+  }
+
+  // convenience method to create a Map from this Word object
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic>{
+      columnWord: word,
+      columnFrequency: frequency
+    };
+    if (id != null) {
+      map[columnId] = id;
+    }
+    return map;
+  }
+}
+
+// singleton class to manage the database
 class DatabaseHelper {
 
   // This is the actual database filename that is saved in the docs directory.
