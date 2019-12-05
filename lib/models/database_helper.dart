@@ -4,32 +4,30 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
 // database table and column names
-final String tableWords = 'words';
+final String tablePaths = 'paths';
 final String columnId = '_id';
-final String columnWord = 'word';
-final String columnFrequency = 'frequency';
+final String columnPath = 'path';
 
 // data model class
-class Word {
+class Path {
 
   int id;
-  String word;
-  int frequency;
+  String path;
 
-  Word();
+  Path();
 
   // convenience constructor to create a Word object
-  Word.fromMap(Map<String, dynamic> map) {
+  Path.fromMap(Map<String, dynamic> map) {
     id = map[columnId];
-    word = map[columnWord];
-    frequency = map[columnFrequency];
+    path = map[columnPath];
+
   }
 
   // convenience method to create a Map from this Word object
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
-      columnWord: word,
-      columnFrequency: frequency
+      columnPath: path,
+
     };
     if (id != null) {
       map[columnId] = id;
@@ -72,30 +70,29 @@ class DatabaseHelper {
   // SQL string to create the database
   Future _onCreate(Database db, int version) async {
     await db.execute('''
-              CREATE TABLE $tableWords (
+              CREATE TABLE $tablePaths (
                 $columnId INTEGER PRIMARY KEY,
-                $columnWord TEXT NOT NULL,
-                $columnFrequency INTEGER NOT NULL
+                $columnPath TEXT NOT NULL
               )
               ''');
   }
 
   // Database helper methods:
 
-  Future<int> insert(Word word) async {
+  Future<int> insert(Path path) async {
     Database db = await database;
-    int id = await db.insert(tableWords, word.toMap());
+    int id = await db.insert(tablePaths, path.toMap());
     return id;
   }
 
-  Future<Word> queryWord(int id) async {
+  Future<Path> queryPath(int id) async {
     Database db = await database;
-    List<Map> maps = await db.query(tableWords,
-        columns: [columnId, columnWord, columnFrequency],
+    List<Map> maps = await db.query(tablePaths,
+        columns: [columnId, columnPath],
         where: '$columnId = ?',
         whereArgs: [id]);
     if (maps.length > 0) {
-      return Word.fromMap(maps.first);
+      return Path.fromMap(maps.first);
     }
     return null;
   }

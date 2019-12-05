@@ -12,6 +12,7 @@ import 'widgets/image.dart';
 import 'models/commentary.dart';
 import './providers/posts_repo.dart';
 
+
 enum FilterOptions { ImagePick }
 
 void main() => runApp(MyApp());
@@ -49,6 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
   static final List<Commentary> _commentaries = [];
   bool _isNewPostSelected = false;
 
+
   ImagePost imagePost = new ImagePost(
       new AssetImage("assets/test_graphics/8kb6UL-FvxM.jpg"), _commentaries);
 
@@ -58,7 +60,8 @@ class _MyHomePageState extends State<MyHomePage> {
   // ];
 
   Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    File image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    print(image.path);
     final PostsRepository _posts = Provider.of<PostsRepository>(context);
    // final repoPostList = _posts.items;
 
