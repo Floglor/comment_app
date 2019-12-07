@@ -40,7 +40,7 @@ class Path {
   Path.fromMap(Map<String, dynamic> map) {
     id = map[columnId];
     path = map[columnPath];
-    commentaries = map[columnCommentaries];
+    commentaries = _jsonToCommentary(map[columnCommentaries]);
   }
 
   // convenience method to create a Map from this Word object

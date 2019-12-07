@@ -7,6 +7,7 @@ import 'package:comment_app/widgets/commentary_widget.dart';
 import 'package:comment_app/widgets/main_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'models/database_helper.dart';
 import 'models/image_post.dart';
 import 'widgets/image.dart';
 import 'models/commentary.dart';
@@ -46,13 +47,33 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  _read() async {
+    DatabaseHelper helper = DatabaseHelper.instance;
+    int rowId = 1;
+    Path path = await helper.queryPath(rowId);
+    if (path == null) {
+      print('read row $rowId: empty');
+    } else {
+    //  print('read row $rowId: ${path.path} ${path.}');
+    }
+  }
+
+  _save(ImagePost post) async {
+    Path path = Path();
+    path.path = 'hello';
+    DatabaseHelper helper = DatabaseHelper.instance;
+    int id = await helper.insert(path);
+    print('inserted row: $id');
+  }
+
   var _image;
   static final List<Commentary> _commentaries = [];
   bool _isNewPostSelected = false;
 
 
   ImagePost imagePost = new ImagePost(
-      new AssetImage("assets/test_graphics/8kb6UL-FvxM.jpg"), _commentaries);
+      null, _commentaries);
 
   // static final List<Commentary> _commentaries = [
   //   Commentary(date: DateTime.now(), text: "HOT <3", profileName: "Pepega"),
@@ -80,6 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
         _posts.addPost(imagePost);
         print('new post created');
         _isNewPostSelected = true;
+
       });
   }
 
