@@ -12,6 +12,14 @@ class SavedImages extends StatelessWidget {
     List<ImagePost> imagePosts = Provider.of<PostsRepository>(context).items;
     return Scaffold(
       appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+            onPressed: () {
+              Provider.of<PostsRepository>(context).deleteAllImagePosts();
+            },
+            icon: Icon(Icons.delete),
+          )
+        ],
         title: Text("Saved Images"),
       ),
       body: GridView.builder(

@@ -88,6 +88,11 @@ class DatabaseHelper {
         version: _databaseVersion, onCreate: _onCreate);
   }
 
+  deleteAllPaths() async {
+    Database db = await database;
+    db.rawDelete("Delete * from $tablePaths");
+  }
+
   // SQL string to create the database
   Future _onCreate(Database db, int version) async {
     await db.execute('''
@@ -105,6 +110,14 @@ class DatabaseHelper {
     Database db = await database;
     int id = await db.insert(tablePaths, path.toMap());
     return id;
+  }
+
+  getAllPaths() async {
+    final db = await database;
+    var res = await db.query(tablePaths);
+    List<Path> list =
+    res.isNotEmpty ? res.map((c) => Path.fromMap(c)).toList() : [];
+    return list;
   }
 
   Future<Path> queryPath(int id) async {

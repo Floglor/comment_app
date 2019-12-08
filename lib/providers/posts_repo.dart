@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:comment_app/models/database_helper.dart';
 import 'package:comment_app/models/image_post.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,6 +23,13 @@ class PostsRepository with ChangeNotifier {
     _readFromDB();
   }
 
+  loadDataFromDB(){
+    DatabaseHelper helper = DatabaseHelper.instance;
+    List<Path> pathList = helper.getAllPaths();
+    List<ImagePost> imageList = pathList.map((pathItem) => new ImagePost(new File(pathItem.path), pathItem.commentaries));
+    _items = imageList;
+  }
+
   _saveAllToDB() async {
     Path path = Path();
     DatabaseHelper helper = DatabaseHelper.instance;
@@ -32,6 +41,13 @@ class PostsRepository with ChangeNotifier {
       id = await helper.insert(path);
       print('inserted row: $id');
     }
+  }
+
+  deleteAllImagePosts(){
+    DatabaseHelper helper = DatabaseHelper.instance;
+    helper.deleteAllPaths();
+    _items.clear();
+    print("database cleared, _items cleared");
   }
 
   _saveToDB(ImagePost imagePost) async {
