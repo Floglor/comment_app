@@ -7,7 +7,6 @@ import 'package:comment_app/widgets/commentary_widget.dart';
 import 'package:comment_app/widgets/main_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'models/database_helper.dart';
 import 'models/image_post.dart';
 import 'widgets/image.dart';
 import 'models/commentary.dart';
@@ -76,15 +75,6 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     }
 
-/* final repoPostList = _posts.items;*/
-    // bool isAlreadyPosted = false;
-    // for (int i = 0; i < repoPostList.length; i++) {
-    //     if (repoPostList[i].image.) {
-    //     isAlreadyPosted = true;
-    //     print('already posted');
-    //   }
-    // }
-    // if (!isAlreadyPosted)
 
     setState(() {
       imagePost = new ImagePost(image, new List<Commentary>());
@@ -106,6 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<PostsRepository>(context).loadDataFromDB();
     if (argumentImagePost == null)
      argumentImagePost =
         ModalRoute.of(context).settings.arguments as ImagePost;

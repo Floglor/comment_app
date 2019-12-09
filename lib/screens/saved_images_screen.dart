@@ -4,9 +4,14 @@ import 'package:comment_app/providers/posts_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SavedImages extends StatelessWidget {
+class SavedImages extends StatefulWidget {
   static const routeName = "/saved_images";
 
+  @override
+  _SavedImagesState createState() => _SavedImagesState();
+}
+
+class _SavedImagesState extends State<SavedImages> {
   @override
   Widget build(BuildContext context) {
     List<ImagePost> imagePosts = Provider.of<PostsRepository>(context).items;
@@ -15,7 +20,9 @@ class SavedImages extends StatelessWidget {
         actions: <Widget>[
           IconButton(
             onPressed: () {
-              Provider.of<PostsRepository>(context).deleteAllImagePosts();
+              setState(() {
+                Provider.of<PostsRepository>(context).deleteAllImagePosts();
+              });
             },
             icon: Icon(Icons.delete),
           )

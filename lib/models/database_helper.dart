@@ -90,7 +90,7 @@ class DatabaseHelper {
 
   deleteAllPaths() async {
     Database db = await database;
-    db.rawDelete("Delete * from $tablePaths");
+    db.rawDelete("Delete from $tablePaths");
   }
 
   // SQL string to create the database
@@ -112,7 +112,7 @@ class DatabaseHelper {
     return id;
   }
 
-  getAllPaths() async {
+   Future<List<Path>> getAllPaths() async {
     final db = await database;
     var res = await db.query(tablePaths);
     List<Path> list =

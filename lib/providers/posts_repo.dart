@@ -23,11 +23,16 @@ class PostsRepository with ChangeNotifier {
     _readFromDB();
   }
 
-  loadDataFromDB(){
+  loadDataFromDB() {
     DatabaseHelper helper = DatabaseHelper.instance;
-    List<Path> pathList = helper.getAllPaths();
-    List<ImagePost> imageList = pathList.map((pathItem) => new ImagePost(new File(pathItem.path), pathItem.commentaries));
-    _items = imageList;
+    helper.getAllPaths().then((onValue) {
+      if (onValue != null) {
+        List<ImagePost> imageList = onValue.map((pathItem) =>
+        new ImagePost(new File(pathItem.path), pathItem.commentaries)).toList();
+        _items = imageList;
+      }
+    });
+
   }
 
   _saveAllToDB() async {
@@ -43,7 +48,7 @@ class PostsRepository with ChangeNotifier {
     }
   }
 
-  deleteAllImagePosts(){
+  deleteAllImagePosts() {
     DatabaseHelper helper = DatabaseHelper.instance;
     helper.deleteAllPaths();
     _items.clear();
