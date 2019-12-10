@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:comment_app/models/database_helper.dart';
 import 'package:comment_app/models/image_post.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 
 class PostsRepository with ChangeNotifier {
   static const String _key = 'PostRepo';
@@ -32,7 +32,7 @@ class PostsRepository with ChangeNotifier {
         _items = imageList;
       }
     });
-
+    print("Data loaded");
   }
 
   _saveAllToDB() async {

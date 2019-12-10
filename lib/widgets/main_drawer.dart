@@ -1,3 +1,4 @@
+import 'package:comment_app/screens/profile_edit_screen.dart';
 import 'package:comment_app/screens/saved_images_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -43,6 +44,9 @@ class MainDrawer extends StatelessWidget {
           ),
           buildListTile('Saved Images', Icons.save, () {
             Navigator.of(context).pushNamed(SavedImages.routeName);
+          }),
+          buildListTile('Profile', Icons.person, () {
+            Navigator.of(context).pushNamed(ProfileEdit.routeName);
           }),
         ],
       ),
