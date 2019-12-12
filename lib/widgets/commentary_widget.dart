@@ -1,5 +1,8 @@
 import 'package:comment_app/models/image_post.dart';
+import 'package:comment_app/providers/profile.dart';
+import 'package:comment_app/widgets/main_avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/commentary.dart';
 import 'comment_container.dart';
 import 'newcomm.dart';
@@ -41,13 +44,14 @@ class _CommentaryListState extends State<CommentaryList> {
     final mediaQuery = MediaQuery.of(context);
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
     var avatarBorderRadius;
+
     if (isLandscape) {
       avatarBorderRadius = mediaQuery.size.width * 0.04;
     }
     else {
       avatarBorderRadius = mediaQuery.size.width * 0.08;
     }
-    var avatarDiameter = avatarBorderRadius*1.7;
+
 
     return Container(
       //height: 300,
@@ -61,21 +65,7 @@ class _CommentaryListState extends State<CommentaryList> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  CircleAvatar(
-                    radius: avatarBorderRadius,
-                    child: Container(
-                      width: avatarDiameter,
-                      height: avatarDiameter,
-                      decoration: new BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: new DecorationImage(
-                          fit: BoxFit.fill,
-                          image: new AssetImage(
-                              "assets/test_graphics/8kb6UL-FvxM.jpg"),
-                        ),
-                      ),
-                    ),
-                  ),
+                  MainAvatar(0.04),
                   SizedBox(
                     width: 5,
                   ),

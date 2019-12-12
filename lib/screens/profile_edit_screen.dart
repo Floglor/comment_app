@@ -18,40 +18,36 @@ class _ProfileEditState extends State<ProfileEdit> {
     var avatarBorderRadius;
     if (isLandscape) {
       avatarBorderRadius = mediaQuery.size.width * 0.1;
-    }
-    else {
+    } else {
       avatarBorderRadius = mediaQuery.size.width * 0.2;
     }
-    var avatarDiameter = avatarBorderRadius*1.9;
-
+    var avatarDiameter = avatarBorderRadius * 1.9;
 
     var profile = Provider.of<Profile>(context);
     return Scaffold(
       appBar: AppBar(title: Text("Profile Edit")),
-      body: Container(
-        alignment: Alignment(0.0, 0.0),
-        height: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            CircleAvatar(
-              radius: avatarBorderRadius,
-              child: Container(
-                width: avatarDiameter,
-                height: avatarDiameter,
-                decoration: new BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: new DecorationImage(
-                    fit: BoxFit.fill,
-                    image: new AssetImage(
-                       profile.avatar.path),
-                  ),
+      body: Column(
+        //crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+        SizedBox(
+        height: 50,
+        ),
+          CircleAvatar(
+            radius: avatarBorderRadius,
+            child: Container(
+              width: avatarDiameter,
+              height: avatarDiameter,
+              decoration: new BoxDecoration(
+                shape: BoxShape.circle,
+                image: new DecorationImage(
+                    image: profile.avatar.path == "assets/test_graphics/8kb6UL-FvxM.jpg" ? new AssetImage(profile.avatar.path) : FileImage(profile.avatar),
+                  fit: BoxFit.fill,
                 ),
               ),
             ),
-            Text(profile.login),
-          ],
-        ),
+          ),
+          Text(profile.login),
+        ],
       ),
     );
   }
