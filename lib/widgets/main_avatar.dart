@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:comment_app/providers/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -5,9 +7,10 @@ import 'package:provider/provider.dart';
 class MainAvatar extends StatelessWidget {
 
   final avatarDiameterMultiplier;
+  final File _image;
 
 
-  MainAvatar(this.avatarDiameterMultiplier);
+  MainAvatar(this.avatarDiameterMultiplier, this._image);
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +34,10 @@ class MainAvatar extends StatelessWidget {
           shape: BoxShape.circle,
           image: new DecorationImage(
             fit: BoxFit.fill,
-            image: profile.avatar.path == "assets/test_graphics/8kb6UL-FvxM.jpg"
+            image: _image == null ? profile.avatar.path == "assets/test_graphics/8kb6UL-FvxM.jpg"
                 ? new AssetImage(profile.avatar.path)
-                : FileImage(profile.avatar),
+                : FileImage(profile.avatar)
+            : FileImage(_image),
           ),
         ),
       ),

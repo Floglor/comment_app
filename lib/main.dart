@@ -38,7 +38,8 @@ class MyApp extends StatelessWidget {
           value: PostsRepository(),
         ),
         ChangeNotifierProvider.value(
-          value: Profile("pepega", File("assets/test_graphics/8kb6UL-FvxM.jpg")),
+          value:
+              Profile("pepega", File("assets/test_graphics/8kb6UL-FvxM.jpg")),
         )
       ],
     );
@@ -62,6 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
   //   Commentary(date: DateTime.now(), text: "HOT <3", profileName: "Pepega"),
   //   Commentary(date: DateTime.now(), text: defaultText, profileName: "Pepega")
   // ];
+
 
   Future getImage() async {
     File image = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -88,7 +90,6 @@ class _MyHomePageState extends State<MyHomePage> {
       print('new post created');
       _isNewPostSelected = true;
     });
-
   }
 
   _showSnackBar(String message) {
@@ -102,10 +103,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
     Provider.of<PostsRepository>(context).loadDataFromDB();
     if (argumentImagePost == null)
-     argumentImagePost =
-        ModalRoute.of(context).settings.arguments as ImagePost;
+      argumentImagePost =
+          ModalRoute.of(context).settings.arguments as ImagePost;
 
     if (argumentImagePost == null)
       print("ARGUMENT POST IS NULL");
@@ -128,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 getImage();
               },
               icon: Icon(Icons.image),
-            )
+            ),
           ],
         ),
         body: ListView(
