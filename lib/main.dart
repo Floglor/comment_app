@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
           routeName: (ctx) => MyHomePage(),
           ProfileEdit.routeName: (ctx) => ProfileEdit()
         },
-        title: "LmaoApp",
+        title: "CommentApp",
         home: MyHomePage(),
       ),
       providers: [
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider.value(
           value:
-              Profile("pepega", File("assets/test_graphics/8kb6UL-FvxM.jpg")),
+              Profile("User", File("assets/test_graphics/8kb6UL-FvxM.jpg")),
         )
       ],
     );
