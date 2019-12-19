@@ -14,6 +14,8 @@ class MainDrawer extends StatefulWidget {
 }
 
 class _MainDrawerState extends State<MainDrawer> {
+  var _loginController = TextEditingController();
+
   Widget buildListTile(String title, IconData icon, Function tapHandler) {
     return ListTile(
       leading: Icon(
@@ -34,7 +36,10 @@ class _MainDrawerState extends State<MainDrawer> {
   bool imageChanged = false;
   File image;
   String value = "";
-  void _showEditProfileDialog(BuildContext context) {
+
+  void _showEditProfileDialog(
+      BuildContext context, TextEditingController savedLoginController) {
+    if (savedLoginController != null) _loginController = savedLoginController;
     print(imageChanged);
     // flutter defined function
     showDialog(
@@ -45,25 +50,20 @@ class _MainDrawerState extends State<MainDrawer> {
           content: Column(
             children: <Widget>[
               GestureDetector(
-                onTap: ()  {
-                  //Provider.of<Profile>(context).avatar = image;
-                  setState(() async {
-                    image =
-                        await ImagePicker.pickImage(source: ImageSource.gallery);
-                    Navigator.of(context).pop();
-                    _showEditProfileDialog(context);
-                  });
-                },
-                child: MainAvatar(0.1, image)
-              ),
+                  onTap: () {
+                    //Provider.of<Profile>(context).avatar = image;
+                    setState(() async {
+                      image = await ImagePicker.pickImage(
+                          source: ImageSource.gallery);
+                      Navigator.of(context).pop();
+                      _showEditProfileDialog(context, _loginController);
+                    });
+                  },
+                  child: MainAvatar(0.1, image)),
               TextField(
-
-                onChanged: (text) {
-                  value = text;
-                },
+                controller: _loginController,
                 decoration: InputDecoration(
-                    labelText: Provider.of<Profile>(context).login,
-
+                  labelText: Provider.of<Profile>(context).login,
                 ),
               ),
             ],
@@ -78,7 +78,12 @@ class _MainDrawerState extends State<MainDrawer> {
             ),
             FlatButton(
               child: Text("Save"),
-              onPressed: () {},
+              onPressed: () {
+                if (image != null) Provider.of<Profile>(context).avatar = image;
+                if (_loginController.text.isNotEmpty)
+                  Provider.of<Profile>(context).login = _loginController.text;
+                Navigator.of(context).pop();
+              },
             )
           ],
         );
@@ -98,7 +103,7 @@ class _MainDrawerState extends State<MainDrawer> {
             alignment: Alignment.centerLeft,
             color: Theme.of(context).accentColor,
             child: GestureDetector(
-                onTap: () => _showEditProfileDialog(context),
+                onTap: () => _showEditProfileDialog(context, null),
                 child: MainAvatar(0.04, null)),
           ),
           SizedBox(
@@ -107,9 +112,9 @@ class _MainDrawerState extends State<MainDrawer> {
           buildListTile('Saved Images', Icons.save, () {
             Navigator.of(context).pushNamed(SavedImages.routeName);
           }),
-          buildListTile('Profile', Icons.person, () {
-            Navigator.of(context).pushNamed(ProfileEdit.routeName);
-          }),
+         // buildListTile('Profile', Icons.person, () {
+         //   Navigator.of(context).pushNamed(ProfileEdit.routeName);
+         // }),
         ],
       ),
     );

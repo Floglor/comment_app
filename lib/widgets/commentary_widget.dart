@@ -1,4 +1,5 @@
 import 'package:comment_app/models/image_post.dart';
+import 'package:comment_app/providers/posts_repo.dart';
 import 'package:comment_app/providers/profile.dart';
 import 'package:comment_app/widgets/main_avatar.dart';
 import 'package:flutter/material.dart';
@@ -22,11 +23,13 @@ class CommentaryList extends StatefulWidget {
 class _CommentaryListState extends State<CommentaryList> {
   void _addNewCommentary(String text) {
     final newCom =
-        Commentary(date: DateTime.now(), text: text, profileName: "Pepega");
+        Commentary(date: DateTime.now(), text: text, profileName: Provider.of<Profile>(context).login);
 
     setState(() {
       widget.imagePost.commentaries.add(newCom);
     });
+
+    Provider.of<PostsRepository>(context).updatePost(widget.imagePost);
   }
 
   @override

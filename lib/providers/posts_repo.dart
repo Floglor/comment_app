@@ -23,6 +23,18 @@ class PostsRepository with ChangeNotifier {
     _readFromDB();
   }
 
+  void deleteDB() {
+    DatabaseHelper helper = DatabaseHelper.instance;
+    helper.dropDB();
+
+  }
+
+  void updatePost(ImagePost imagePost) {
+    DatabaseHelper helper = DatabaseHelper.instance;
+
+    helper.updateByID(imagePost);
+  }
+
   loadDataFromDB() {
     DatabaseHelper helper = DatabaseHelper.instance;
     helper.getAllPaths().then((onValue) {

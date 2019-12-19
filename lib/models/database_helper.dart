@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:comment_app/models/image_post.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
@@ -11,6 +12,16 @@ final String tablePaths = 'paths';
 final String columnId = '_id';
 final String columnPath = 'path';
 final String columnCommentaries = 'commentaries';
+final String columnPostID = 'postID';
+
+
+String commentariesToJson(List<Commentary> list) {
+  String jsonString;
+  List jsonList = List();
+  list.map((item) => jsonList.add(item.toJson())).toList();
+  jsonString = jsonList.toString();
+  return jsonString;
+}
 
 // data model class
 class Path {
@@ -21,12 +32,9 @@ class Path {
 
   Path();
 
-  String _commentariesToJson(List<Commentary> list) {
-    String jsonString;
-    List jsonList = List();
-    list.map((item) => jsonList.add(item.toJson())).toList();
-    jsonString = jsonList.toString();
-    return jsonString;
+
+  void updateCommentaries(List<Commentary> commList, String path) {
+
   }
 
   List<Commentary> _jsonToCommentary(String data) {
@@ -41,13 +49,15 @@ class Path {
     id = map[columnId];
     path = map[columnPath];
     commentaries = _jsonToCommentary(map[columnCommentaries]);
+    postId = map[columnPostID];
   }
 
   // convenience method to create a Map from this Word object
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
       columnPath: path,
-      columnCommentaries: _commentariesToJson(commentaries),
+      columnCommentaries: commentariesToJson(commentaries),
+      columnPostID: postId,
     };
     if (id != null) {
       map[columnId] = id;
@@ -78,6 +88,15 @@ class DatabaseHelper {
     return _database;
   }
 
+  dropDB() async {
+    Database db = await database;
+    db.close();
+    //db.execute("DROP DATABASE $_databaseName");
+    var databasesPath = await getDatabasesPath();
+    var path = join(databasesPath, _databaseName);
+    deleteDatabase(path);
+  }
+
   // open the database
   _initDatabase() async {
     // The path_provider plugin gets the right directory for Android or iOS.
@@ -92,6 +111,22 @@ class DatabaseHelper {
     Database db = await database;
     db.rawDelete("Delete from $tablePaths");
   }
+  
+  deleteByPostId(String postID) async {
+    Database db = await database;
+    db.rawDelete("Delete from $tablePaths where $columnPostID='$postID'");
+  }
+
+  Future<int> updateByID(ImagePost imagePost) async {
+    Database db = await database;
+    var row = {
+      columnPostID : imagePost.postId,
+      columnCommentaries : commentariesToJson(imagePost.commentaries),
+      columnPath : imagePost.image.path,
+    };
+
+    return await db.update(tablePaths, row, where: '$columnPostID = ?', whereArgs: [imagePost.postId]);
+  }
 
   // SQL string to create the database
   Future _onCreate(Database db, int version) async {
@@ -99,7 +134,8 @@ class DatabaseHelper {
               CREATE TABLE $tablePaths (
                 $columnId INTEGER PRIMARY KEY,
                 $columnPath TEXT NOT NULL,
-                $columnCommentaries TEXT NOT NULL
+                $columnCommentaries TEXT NOT NULL,
+                $columnPostID TEXT NOT NULL
               )
               ''');
   }
@@ -132,7 +168,6 @@ class DatabaseHelper {
     return null;
   }
 
-// TODO: queryAllWords()
 // TODO: delete(int id)
 // TODO: update(Word word)
 }

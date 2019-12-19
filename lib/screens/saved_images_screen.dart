@@ -22,6 +22,7 @@ class _SavedImagesState extends State<SavedImages> {
             onPressed: () {
               setState(() {
                 Provider.of<PostsRepository>(context).deleteAllImagePosts();
+                // TODO: execute if database structure somehow changed Provider.of<PostsRepository>(context).deleteDB();
               });
             },
             icon: Icon(Icons.delete),
