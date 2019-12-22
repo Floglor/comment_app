@@ -14,6 +14,7 @@ class SavedImages extends StatefulWidget {
 class _SavedImagesState extends State<SavedImages> {
   @override
   Widget build(BuildContext context) {
+
     List<ImagePost> imagePosts = Provider.of<PostsRepository>(context).items;
     return Scaffold(
       appBar: AppBar(

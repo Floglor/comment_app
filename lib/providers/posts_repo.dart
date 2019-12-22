@@ -7,6 +7,8 @@ import 'package:flutter/widgets.dart';
 class PostsRepository with ChangeNotifier {
   static const String _key = 'PostRepo';
 
+  bool isActual = false;
+
   List<ImagePost> _items = [];
 
   List<ImagePost> get items {
@@ -31,8 +33,9 @@ class PostsRepository with ChangeNotifier {
 
   void updatePost(ImagePost imagePost) {
     DatabaseHelper helper = DatabaseHelper.instance;
-
     helper.updateByID(imagePost);
+    String logCommentaries = imagePost.commentaries[0].text;
+    print("Commentary of $logCommentaries Uploaded");
   }
 
   loadDataFromDB() {
@@ -40,11 +43,17 @@ class PostsRepository with ChangeNotifier {
     helper.getAllPaths().then((onValue) {
       if (onValue != null) {
         List<ImagePost> imageList = onValue.map((pathItem) =>
-        new ImagePost(new File(pathItem.path), pathItem.commentaries)).toList();
+        new ImagePost.withPostId(new File(pathItem.path), pathItem.commentaries, pathItem.postId)).toList();
+       // for (int i = 0; i < imageList.length; i++)
+       //   for (int j = 0; j<imageList[i].commentaries.length; j++)
+       //     print(imageList[i].commentaries[j].text);
         _items = imageList;
+        print("Data loaded");
+      }
+      else {
+        print("onValue = null");
       }
     });
-    print("Data loaded");
   }
 
   _saveAllToDB() async {

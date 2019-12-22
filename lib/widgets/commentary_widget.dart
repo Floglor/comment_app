@@ -30,6 +30,7 @@ class _CommentaryListState extends State<CommentaryList> {
     });
 
     Provider.of<PostsRepository>(context).updatePost(widget.imagePost);
+    Provider.of<PostsRepository>(context).isActual = false;
   }
 
   @override

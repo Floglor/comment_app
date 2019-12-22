@@ -43,7 +43,13 @@ class Path {
     List<Commentary> comments = List<Commentary>();
     List<dynamic> parsedJson = jsonDecode(data);
     comments = parsedJson.map((i) => Commentary.fromJson(i)).toList();
-    //print("_jsonToCommentary. comments = $comments");
+  //  String log = "";
+  //  for (int i = 0; i < comments.length; i++){
+  //    String text = comments[i].text;
+  //    log = "$log, $text";
+  //  }
+  //  print("_jsonToCommentary. comments = $log, data = $data");
+
     return comments;
     //return gsonDecode(data);
   }
@@ -129,7 +135,9 @@ class DatabaseHelper {
       columnPath : imagePost.image.path,
     };
 
-    return await db.update(tablePaths, row, where: '$columnPostID = ?', whereArgs: [imagePost.postId]);
+    //print("UpdateByID row = $row");
+
+    return await db.update(tablePaths, row, where: '$columnPostID = ?', whereArgs: [imagePost.postId.toString()]);
   }
 
   // SQL string to create the database
@@ -155,6 +163,7 @@ class DatabaseHelper {
    Future<List<Path>> getAllPaths() async {
     final db = await database;
     var res = await db.query(tablePaths);
+    //print("res = $res");
     List<Path> list =
     res.isNotEmpty ? res.map((c) => Path.fromMap(c)).toList() : [];
     return list;

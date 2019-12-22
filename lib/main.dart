@@ -38,8 +38,7 @@ class MyApp extends StatelessWidget {
           value: PostsRepository(),
         ),
         ChangeNotifierProvider.value(
-          value:
-              Profile("User", File("assets/test_graphics/8kb6UL-FvxM.jpg")),
+          value: Profile("User", File("assets/test_graphics/8kb6UL-FvxM.jpg")),
         )
       ],
     );
@@ -53,6 +52,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   File _image;
+  bool isDataLoaded = false;
   static final List<Commentary> _commentaries = [];
   bool _isNewPostSelected = false;
 
@@ -63,7 +63,6 @@ class _MyHomePageState extends State<MyHomePage> {
   //   Commentary(date: DateTime.now(), text: "HOT <3", profileName: "Pepega"),
   //   Commentary(date: DateTime.now(), text: defaultText, profileName: "Pepega")
   // ];
-
 
   Future getImage() async {
     File image = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -103,11 +102,26 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    if (!Provider.of<PostsRepository>(context).isActual) {
+      Provider.of<PostsRepository>(context).loadDataFromDB();
+      Provider.of<PostsRepository>(context).isActual = true;
+    }
 
-    Provider.of<PostsRepository>(context).loadDataFromDB();
-    if (argumentImagePost == null)
+    // if (!isDataLoaded)
+    // Provider.of<PostsRepository>(context).loadDataFromDB();
+    // isDataLoaded = true;
+
+    if (argumentImagePost == null) {
       argumentImagePost =
-          ModalRoute.of(context).settings.arguments as ImagePost;
+      ModalRoute
+          .of(context)
+          .settings
+          .arguments as ImagePost;
+
+      if (argumentImagePost!= null)
+      imagePost = argumentImagePost;
+
+    }
 
     if (argumentImagePost == null)
       print("ARGUMENT POST IS NULL");
@@ -118,6 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _image = argumentImagePost.image;
       imagePost = argumentImagePost;
     }
+
 
     return Scaffold(
         drawer: MainDrawer(),

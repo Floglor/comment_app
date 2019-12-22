@@ -8,6 +8,7 @@ class ImagePost {
   List<Commentary> commentaries;
 
   ImagePost(this.image, this.commentaries);
+  ImagePost.withPostId(this.image, this.commentaries, this.postId);
 
 
 }
