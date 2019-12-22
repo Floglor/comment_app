@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:comment_app/models/image_post.dart';
+import 'package:gson/gson.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
@@ -16,11 +17,13 @@ final String columnPostID = 'postID';
 
 
 String commentariesToJson(List<Commentary> list) {
-  String jsonString;
-  List jsonList = List();
-  list.map((item) => jsonList.add(item.toJson())).toList();
-  jsonString = jsonList.toString();
-  return jsonString;
+ String jsonString;
+ List jsonList = List();
+ list.map((item) => jsonList.add(item.toJson())).toList();
+ jsonString = json.encode(jsonList);
+ //print("commentariesToJson. jsonString = $jsonString, jsonList = $jsonList");
+ return jsonString;
+  //return gsonEncode(list);
 }
 
 // data model class
@@ -41,7 +44,9 @@ class Path {
     List<Commentary> comments = List<Commentary>();
     List<dynamic> parsedJson = jsonDecode(data);
     comments = parsedJson.map((i) => Commentary.fromJson(i)).toList();
+    //print("_jsonToCommentary. comments = $comments");
     return comments;
+    //return gsonDecode(data);
   }
 
   // convenience constructor to create a Path object

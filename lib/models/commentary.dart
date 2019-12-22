@@ -1,4 +1,6 @@
-import 'package:flutter/cupertino.dart';
+
+
+import 'package:flutter/widgets.dart';
 
 class Commentary {
   String commentaryId = DateTime.now().toString();
@@ -13,10 +15,10 @@ class Commentary {
   });
 
   Map<String, dynamic> toJson() => {
-        'commentaryId': this.commentaryId,
-        'profileName': this.profileName,
-        'date': this.date,
-        'text': this.text
+        'commentaryId': this.commentaryId.toString(),
+        'profileName': this.profileName.toString(),
+        'date': this.date.toString(),
+        'text': this.text.toString()
       };
 
   Commentary.fromJson(Map<String, dynamic> json)
