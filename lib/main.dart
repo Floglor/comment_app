@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:comment_app/models/commentary.dart';
 import 'package:comment_app/providers/profile.dart';
-import 'package:comment_app/screens/profile_edit_screen.dart';
 import 'package:comment_app/screens/saved_images_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:comment_app/widgets/commentary_widget.dart';
@@ -28,7 +27,6 @@ class MyApp extends StatelessWidget {
         routes: {
           SavedImages.routeName: (ctx) => SavedImages(),
           routeName: (ctx) => MyHomePage(),
-          ProfileEdit.routeName: (ctx) => ProfileEdit()
         },
         title: "CommentApp",
         home: MyHomePage(),

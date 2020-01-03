@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:comment_app/providers/profile.dart';
-import 'package:comment_app/screens/profile_edit_screen.dart';
 import 'package:comment_app/screens/saved_images_screen.dart';
 import 'package:comment_app/widgets/main_avatar.dart';
 import 'package:flutter/material.dart';
@@ -46,8 +45,7 @@ class _MainDrawerState extends State<MainDrawer> {
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: Text("Alert Dialog title"),
-          content: Column(
+          content: ListView(
             children: <Widget>[
               GestureDetector(
                   onTap: () {
